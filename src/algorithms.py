@@ -120,3 +120,183 @@ class BFS(Scene):
         
         self.wait(3)
 
+class MST(Scene):
+    
+
+    def construct(self):
+
+        title = Text("Minimum Spanning Tree", color=BLUE).scale(1.5)
+        description = Text("Ejemplo de arbol generado por MST", gradient=(BLUE,GREEN)).next_to(title, DOWN)
+        name = Text("Ana Maritza Bello Yañez", slant=ITALIC).next_to(title, UP)
+        self.add(title, description, name)
+        self.play(FadeOut(title, description, name))
+        self.wait(1)
+        
+        title2 = Text("Minimum Spanning Tree", weight=BOLD, font="Arial", color=GREEN).move_to([2,-2,0])
+        self.play(Write(title2))
+
+        #---------------------------------------------Primero definir el grafo original------------------------------------------------------------------------------#
+        vertices=[1,2,3,4,5,6,7,8]  #Definir vertices
+        aristas=[
+            (1,2),
+            (1,3),
+            (1,7),
+            (2,3),
+            (2,4),
+            (2,5),
+            (4,8),
+            (4,5),
+            (5,6),
+            (5,3),
+            (3,7),
+            (3,6),
+            (7,6),
+            (8,6)
+            ]
+        coordenadas=[[-3,3,0], [-4,1.5,0], [-2,1.5,0],[-5,0,0],[-3,0,0],[-0.5,0.5,0],[-0.5,2.5,0],[-3,-2,0]] #Las coordenadas deben estar en formato de lista [x,y,z]
+        acomodo={v:coord for (v,coord) in zip(vertices,coordenadas)}  #Crea un diccionario con las coordenadas de cada nodo, para pasarlo como argumento layout del grafo
+    
+        g=Graph(vertices,
+                aristas,
+                labels=True,
+                layout=acomodo,
+                edge_type=Line,
+                edge_config={'color':WHITE,'stroke_width':1},
+                vertex_config={'fill_color':GRAY})
+        #-------------------------------------------------------------------------------------------------------------------------------------------------------------#
+
+        weight1 = Text("21", font_size=25).next_to([-4,2.5,0])
+        weight2 = Text("14", font_size=25).next_to([-2.8,2.6,0])
+        weight3 = Text("7", font_size=25).next_to([-2,3,0])
+        weight4 = Text("10", font_size=25).next_to([-3.5,1.7,0])
+        weight5 = Text("8", font_size=25).next_to([-4.2,0.8,0])
+        weight6 = Text("16", font_size=25).next_to([-5.3,0.8,0])
+        weight7 = Text("4", font_size=25).next_to([-4,-0.8,0])
+        weight8 = Text("6", font_size=25).next_to([-4.5,0.2,0])
+        weight9 = Text("23", font_size=25).next_to([-2.2,0.5,0])
+        weight10 = Text("5", font_size=25).next_to([-3,0.8,0])
+        weight11 = Text("11", font_size=25).next_to([-1.8,2.1,0])
+        weight12 = Text("18", font_size=25).next_to([-1.5,1.2,0])
+        weight13 = Text("9", font_size=25).next_to([-0.5,1.5,0])
+        weight14 = Text("24", font_size=25).next_to([-2,-0.8,0])
+
+        self.play(
+            Write(weight1),
+            Write(weight2),
+            Write(weight3),
+            Write(weight4),
+            Write(weight5),
+            Write(weight6),
+            Write(weight7),
+            Write(weight8),
+            Write(weight9),
+            Write(weight10),
+            Write(weight11),
+            Write(weight12),
+            Write(weight13),
+            Write(weight14),
+        )
+
+        self.play(Create(g))
+
+        tree_edges = [(4,8),(5,3),(4,5),
+        (7,1),(5,2),(7,6),
+        (2,3),(3,7),
+        (1,2),(2,4),(3,6),(5,6),(6,8)
+        ]
+
+        for element in tree_edges:
+            if element in [(2,3),(1,2),(2,4),(3,6),(5,6),(6,8)]:
+                self.play(
+                    g.animate.add_edges(element,
+                    edge_type=Line,
+                    edge_config={
+                        'color':RED,
+                        'stroke_width':15,}
+                        )
+                    )
+                self.wait(0.5)
+                self.play(g.animate.remove_edges(element))
+            else:
+                self.play(
+                    g.animate.add_edges(element,
+                    edge_type=Line,
+                    edge_config={
+                        'color':BLUE,
+                        'stroke_width':15}
+                        )
+                    )
+
+
+#class Dijkstra(Scene):
+#    title = Text("Dijkstra", color=BLUE).scale(1.5)
+#    description = Text("Ejemplo de camino más corto", gradient=(BLUE,GREEN)).next_to(title, DOWN)
+#    name = Text("Ana Maritza Bello Yañez", slant=ITALIC).next_to(title, UP)
+#    self.add(title, description, name)
+#    self.play(FadeOut(title, description, name))
+#    self.wait(1)
+#    
+#    title2 = Text("Minimum Spanning Tree", weight=BOLD, font="Arial", color=GREEN).move_to([2,-2,0])
+#    self.play(Write(title2))
+#        #---------------------------------------------Primero definir el grafo original------------------------------------------------------------------------------#
+#    vertices=[1,2,3,4,5,6,7,8]  #Definir vertices
+#    aristas=[
+#        (1,2),
+#        (1,3),
+#        (1,7),
+#        (2,3),
+#        (2,4),
+#        (2,5),
+#        (4,8),
+#        (4,5),
+#        (5,6),
+#        (5,3),
+#        (3,7),
+#        (3,6),
+#        (7,6),
+#        (8,6)
+#        ]
+#    coordenadas=[[-3,3,0], [-4,1.5,0], [-2,1.5,0],[-5,0,0],[-3,0,0],[-0.5,0.5,0],[-0.5,2.5,0],[-3,-2,0]] #Las coordenadas deben estar en formato de lista [x,y,z]
+#    acomodo={v:coord for (v,coord) in zip(vertices,coordenadas)}  #Crea un diccionario con las coordenadas de cada nodo, para pasarlo como argumento layout del grafo
+#
+#    g=Graph(vertices,
+#            aristas,
+#            labels=True,
+#            layout=acomodo,
+#            edge_type=Line,
+#            edge_config={'color':WHITE,'stroke_width':1},
+#            vertex_config={'fill_color':GRAY})
+#    #-------------------------------------------------------------------------------------------------------------------------------------------------------------#
+#
+#    weight1 = Text("21", font_size=25).next_to([-4,2.5,0])
+#    weight2 = Text("14", font_size=25).next_to([-2.8,2.6,0])
+#    weight3 = Text("7", font_size=25).next_to([-2,3,0])
+#    weight4 = Text("10", font_size=25).next_to([-3.5,1.7,0])
+#    weight5 = Text("8", font_size=25).next_to([-4.2,0.8,0])
+#    weight6 = Text("16", font_size=25).next_to([-5.3,0.8,0])
+#    weight7 = Text("4", font_size=25).next_to([-4,-0.8,0])
+#    weight8 = Text("6", font_size=25).next_to([-4.5,0.2,0])
+#    weight9 = Text("23", font_size=25).next_to([-2.2,0.5,0])
+#    weight10 = Text("5", font_size=25).next_to([-3,0.8,0])
+#    weight11 = Text("11", font_size=25).next_to([-1.8,2.1,0])
+#    weight12 = Text("18", font_size=25).next_to([-1.5,1.2,0])
+#    weight13 = Text("9", font_size=25).next_to([-0.5,1.5,0])
+#    weight14 = Text("24", font_size=25).next_to([-2,-0.8,0])
+#
+#    self.play(
+#        Write(weight1),
+#        Write(weight2),
+#        Write(weight3),
+#        Write(weight4),
+#        Write(weight5),
+#        Write(weight6),
+#        Write(weight7),
+#        Write(weight8),
+#        Write(weight9),
+#        Write(weight10),
+#        Write(weight11),
+#        Write(weight12),
+#        Write(weight13),
+#        Write(weight14),
+#    )
+

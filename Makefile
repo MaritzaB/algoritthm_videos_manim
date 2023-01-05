@@ -11,6 +11,12 @@ GraphAnimation: src/graph_animation.py
 BFS: src/algorithms.py
 	manim render $< BFS -ql
 
+MST: src/algorithms.py
+	manim render $< MST -ql
+
+Dijkstra: src/algorithms.py
+	manim render $< MST -ql
+
 foo: src/foo.py
 	manim render $< msn -ql
 
